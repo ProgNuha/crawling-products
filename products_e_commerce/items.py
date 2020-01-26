@@ -9,6 +9,7 @@ import scrapy
 
 
 class ProductsECommerceItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    price = scrapy.Field()
+    source_image = scrapy.Field()
+    link_url = scrapy.Field()
