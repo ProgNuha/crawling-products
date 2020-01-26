@@ -1,5 +1,5 @@
-# crawling-quotes
-A simple practice python web crawling using scrapy 
+# crawling-products
+Crawling products at e-commerce using scrapy 
 
 # Scrapy
 Scrapy is a free and open-source web-crawling framework written in Python
