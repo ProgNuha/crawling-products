@@ -1,8 +1,9 @@
 import scrapy
 from ..items import ProductsECommerceItem
 
-class BerryBenkaSpider(scrapy.Spider):
+class ProductsSpider(scrapy.Spider):
     name = 'products'
+    number_product = 48
     start_urls = [
         'https://berrybenka.com/clothing/outerwear/women'
     ]
@@ -25,3 +26,11 @@ class BerryBenkaSpider(scrapy.Spider):
             items['link_url'] = link_url
 
             yield items
+        
+        next_page = response.css('.right a::attr(href)').get()
+        next_url = 'https://berrybenka.com/clothing/outerwear/women/' + str(ProductsSpider.number_product)
+
+        if next_page is not None:
+            yield response.follow(next_url, callback = self.parse)
+        
+        ProductsSpider.number_product += 48
