@@ -13,22 +13,22 @@ class ProductsSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        products = ProductsECommerceItem()
+        items = ProductsECommerceItem()
 
-        items = response.css('#li-catalog')
+        products = response.css('#li-catalog')
 
-        for item in items:
-            title = item.css('h1::text').get()
-            price = item.css('.discount::text').get()
-            image_source = item.css('.catalog-image').css('img::attr(src)').get()
-            page_url = item.css('a::attr(href)').get()
+        for product in products:
+            title = product.css('h1::text').get()
+            price = product.css('.discount::text').get()
+            image_source = product.css('.catalog-image').css('img::attr(src)').get()
+            page_url = product.css('a::attr(href)').get()
             
-            products['title'] = title
-            products['price'] = price
-            products['image_source'] = image_source
-            products['page_url'] = page_url
+            items['title'] = title
+            items['price'] = price
+            items['image_source'] = image_source
+            items['page_url'] = page_url
 
-            yield products
+            yield items
         
         next_page = response.css('.right a::attr(href)').get()
         next_url = 'https://berrybenka.com/clothing/tops/women/' + str(ProductsSpider.number_product)
