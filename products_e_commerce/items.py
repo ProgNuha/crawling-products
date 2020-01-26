@@ -11,5 +11,5 @@ import scrapy
 class ProductsECommerceItem(scrapy.Item):
     title = scrapy.Field()
     price = scrapy.Field()
-    source_image = scrapy.Field()
-    link_url = scrapy.Field()
+    image_source = scrapy.Field()
+    page_url = scrapy.Field()
