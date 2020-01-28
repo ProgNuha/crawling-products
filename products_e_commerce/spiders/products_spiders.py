@@ -4,12 +4,19 @@ from ..items import ProductsECommerceItem
 class ProductsSpider(scrapy.Spider):
     name = 'products'
     number_product = 48
-    start_urls = [
-        # 'https://berrybenka.com/clothing/outwear/women'
-        # 'https://berrybenka.com/clothing/dresses/women'
-        # 'https://berrybenka.com/clothing/bottoms/women'
-        'https://berrybenka.com/clothing/tops/women'
+    separator = 'n/'
+
+    urls = [
+        'https://berrybenka.com/clothing/outwear/women/0',
+        'https://berrybenka.com/clothing/dresses/women/0',
+        'https://berrybenka.com/clothing/bottoms/women/0',
+        'https://berrybenka.com/clothing/tops/women/0'
     ]
+
+    def start_requests(self):
+        for url in ProductsSpider.urls:
+
+            yield scrapy.Request(url=url, callback = self.parse)
 
     def parse(self, response):
 
@@ -31,9 +38,11 @@ class ProductsSpider(scrapy.Spider):
             yield items
         
         next_page = response.css('.right a::attr(href)').get()
-        next_url = 'https://berrybenka.com/clothing/tops/women/' + str(ProductsSpider.number_product)
+        current_url = str(response.request.url)
+        current_url = current_url.split(ProductsSpider.separator,1)
 
         if next_page is not None:
+            next_url = current_url[0] + ProductsSpider.separator + str(ProductsSpider.number_product)
             yield response.follow(next_url, callback = self.parse)
         
         ProductsSpider.number_product += 48
